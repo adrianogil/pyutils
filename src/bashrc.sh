@@ -1,8 +1,8 @@
 
 if [ -z "$PYTOOLS_PYTHON_PATH" ];
 then
-    export PYTOOLS_PYTHON_PATH=$PYTOOLS_DIR/src
+    export PYTOOLS_PYTHON_PATH=$PYTOOLS_DIR/python/
     export PYTHONPATH=$PYTOOLS_PYTHON_PATH:$PYTHONPATH
 fi
 
-alias py-pickle-viewer="python3 $PYTOOLS_DIR/src/python/pickle_view.py"
+alias py-pickle-viewer="python3 $PYTOOLS_DIR/python/pyutils/pickle_view.py"
