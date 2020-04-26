@@ -1,9 +1,14 @@
-from pyutils.decorators import timer
+from pyutils.decorators import timer, ObservableInstance
 
 
-class SimpleObject:
+class SimpleObject(ObservableInstance):
     def __init__(self):
+        super().__init__()
         self.x = 0
+
+    def __del__(self):
+        print("SimpleObject destructor")
+        super().__del__()
 
     @property
     def objdata(self):
@@ -44,7 +49,7 @@ class SampleObject2:
 
 
 @timer
-def generate_instances(object_class, max_instances=1000000):
+def generate_instances(object_class, max_instances=1000):
 
     all_instances = []
 
