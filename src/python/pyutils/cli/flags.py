@@ -32,3 +32,10 @@ def verify_flag(flag_name):
         process_args()
 
     return flag_name in flags
+
+def get_flag(flag_name):
+
+    if flag_name in flags:
+        return flags[flag_name]
+
+    return None
