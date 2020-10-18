@@ -15,7 +15,11 @@ function p3m()
 alias pi-error="python3 -m pyutils.cli.get_pymodule_from_lasterror '$(history | tail -3 | head -1)'"
 alias pi="pip install"
 
-alias pytree="tree -I *.pyc -I __pycache__"
+alias py-tree="tree -I *.pyc -I __pycache__"
+
+# Create init files
+alias py-tg="python3 -m pyproject.create_init_files"
+
 
 if [ -z "$PYTOOLS_PYTHON_PATH" ];
 then
