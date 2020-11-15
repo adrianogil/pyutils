@@ -17,8 +17,13 @@ def getter_method_gen(property_name):
 
 def setter_method_gen(property_name, props=None):
     def set_property(self, property_value):
-        if props is not None and 'prop_type' in props:
-            prop_type = props.prop_type
+        print('classproperties:set_property - %s - props: %s' % (property_name, props))
+
+        if property_value is None:
+            if props is not None and 'default_value' in props:
+                property_value = props['default_value']
+        elif props is not None and 'prop_type' in props:
+            prop_type = props['prop_type']
             property_value = prop_type(property_value)
         set_class_attribute(self, "_" + property_name, property_value)
     return set_property
@@ -37,12 +42,14 @@ def declare_props(obj, *properties_list, props=None):
         props = {}
 
     for property_name in properties_list:
+
+        getter_method = getter_method_gen(property_name)
+        setter_method = setter_method_gen(property_name, props.get(property_name, None))
+
         set_class_attribute(obj, "_" + property_name, None)
-        set_class_attribute(obj.__class__, "_get_" + property_name, getter_method_gen(property_name))
-        set_class_attribute(obj.__class__, "_set_" + property_name, setter_method_gen(property_name, props.get(property_name, None)))
-        set_class_attribute(obj.__class__, property_name,
-                            property(getter_method_gen(property_name),
-                                     setter_method_gen(property_name)))
+        set_class_attribute(obj.__class__, "_get_" + property_name, getter_method_gen)
+        set_class_attribute(obj.__class__, "_set_" + property_name, setter_method_gen)
+        set_class_attribute(obj.__class__, property_name, property(getter_method, setter_method))
 
         # Set default values when defined in props
         if property_name in props and 'default_value' in props[property_name]:
