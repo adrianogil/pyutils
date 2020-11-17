@@ -11,6 +11,7 @@ function p3m()
     python3 -m ${target_module} $@
 }
 
+alias pys="find . -name '*.py'"
 
 alias pi-error="python3 -m pyutils.cli.get_pymodule_from_lasterror '$(history | tail -3 | head -1)'"
 alias pi="pip install"
