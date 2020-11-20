@@ -21,6 +21,14 @@ alias py-tree="tree -I *.pyc -I __pycache__"
 # Create init files
 alias py-tg="python3 -m pyproject.create_init_files"
 
+function py-smod()
+{
+    # Open module in sublime
+    target_module=$1
+
+    sublime -n $(python -c "import ${target_module} as o;import os; print(os.path.dirname(os.path.abspath(o.__file__)))")
+}
+
 
 if [ -z "$PYTOOLS_PYTHON_PATH" ];
 then
