@@ -8,6 +8,8 @@ from pyutils.cli.flags import verify_flag, get_flag
 get_class_attribute = getattr
 set_class_attribute = setattr
 
+DEBUG_MODE = False
+
 
 def getter_method_gen(property_name):
     def get_property(self):
@@ -17,7 +19,8 @@ def getter_method_gen(property_name):
 
 def setter_method_gen(property_name, props=None):
     def set_property(self, property_value):
-        print('classproperties:set_property - %s - props: %s' % (property_name, props))
+        if DEBUG_MODE:
+            print('classproperties:set_property - %s - props: %s' % (property_name, props))
 
         if property_value is None:
             if props is not None and 'default_value' in props:
