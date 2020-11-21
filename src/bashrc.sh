@@ -29,6 +29,10 @@ function py-smod()
     sublime -n $(python -c "import ${target_module} as o;import os; print(os.path.dirname(os.path.abspath(o.__file__)))")
 }
 
+function py-which()
+{
+    type python
+}
 
 if [ -z "$PYTOOLS_PYTHON_PATH" ];
 then
