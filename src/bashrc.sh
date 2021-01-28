@@ -11,6 +11,16 @@ function p3m()
     python3 -m ${target_module} $@
 }
 
+function p3mi()
+{
+    module_path=$1
+    target_module=$(echo ${module_path} | tr '/' '.')
+    target_module=${target_module/.py/}
+    echo "Running module "${target_module}
+    shift
+    python3 -i -m ${target_module} $@
+}
+
 alias pys="find . -name '*.py'"
 
 alias pi-error="python3 -m pyutils.cli.get_pymodule_from_lasterror '$(history | tail -3 | head -1)'"
