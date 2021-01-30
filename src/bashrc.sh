@@ -3,7 +3,6 @@ alias p3='python3'
 
 function p3m()
 {
-    
     if [[ -z "$1" ]]; then
         module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
     else
@@ -19,7 +18,11 @@ function p3m()
 
 function p3mi()
 {
-    module_path=$1
+    if [[ -z "$1" ]]; then
+        module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
+    else
+        module_path=$1
+    fi
     target_module=$(echo ${module_path} | tr '/' '.')
     target_module=${target_module/.py/}
     echo "Running module "${target_module}
