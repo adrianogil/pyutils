@@ -22,7 +22,8 @@ setup(
     ],
     platforms='any',
     packages=find_packages(),
-    dependency_links=['http://github.com/adrianogil/pyutils/tarball/master#egg=pyutils-0.0.1']
+    dependency_links=['http://github.com/adrianogil/pyutils/tarball/master#egg=pyutils-0.0.1'],
+    include_package_data=True,
     # entry_points={
     #     'distutils.commands': [
     #         'upload_sphinx = sphinx_pypi_upload:UploadDoc',
