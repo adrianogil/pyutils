@@ -38,7 +38,7 @@ alias pi="pip install"
 alias py-tree="tree -I *.pyc -I __pycache__"
 
 # Create init files
-alias py-tg="python3 -m pyproject.create_init_files"
+alias py-tg="python3 -m pyutils.pyproject.create_init_files"
 
 function py-smod()
 {
@@ -53,11 +53,5 @@ function py-which()
     type python
 }
 
-if [ -z "$PYTOOLS_PYTHON_PATH" ];
-then
-    export PYTOOLS_PYTHON_PATH=$PYTOOLS_DIR/
-    export PYTHONPATH=$PYTOOLS_PYTHON_PATH:$PYTHONPATH
-fi
-
-alias py-pickle-viewer="python3 $PYTOOLS_DIR/pyutils/pickle_view.py"
-alias py-json-load="python3 -i $PYTOOLS_DIR/pyutils/json_load.py"
+alias py-pickle-viewer="python3 -i -m pyutils.pickle_view"
+alias py-json-load="python3 -i -m pyutils.json_load"

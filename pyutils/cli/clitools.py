@@ -1,7 +1,8 @@
 import subprocess
+import os
 
 
-def run_cmd(cmd, terminal_executable=None, return_stderr=False, using_ibash=False):
+def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=False):
     ibash_exe = "/usr/local/bin/interactive_bash"
 
     subprocess_cmd = cmd
@@ -10,8 +11,9 @@ def run_cmd(cmd, terminal_executable=None, return_stderr=False, using_ibash=Fals
 
     if terminal_executable is not None:
         args["executable"] = terminal_executable
-    elif using_ibash:
-        args["executable"] = ibash_exe
+    elif load_bashrc:
+        if os.path.exists(ibash_exe):
+            args["executable"] = ibash_exe
     if return_stderr:
         args["stderr"] = subprocess.STDOUT
         args["universal_newlines"] = True
