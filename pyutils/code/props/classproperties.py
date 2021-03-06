@@ -2,11 +2,8 @@
     Module for handling generation of class properties
 
 """
-from pyutils.cli.flags import verify_flag, get_flag
-
-
-get_class_attribute = getattr
-set_class_attribute = setattr
+from .base import get_class_attribute, set_class_attribute
+from .flags import set_properties_from_flags
 
 DEBUG_MODE = False
 
@@ -72,12 +69,3 @@ def declare_props(obj, *properties_list, props=None):
     set_class_attribute(obj.__class__, 'set_properties', properties_setter_gen(properties_list))
 
 
-def set_properties_from_flags(class_object):
-    if get_flag("--help"):
-        print("Current available flags:")
-        for property_name in class_object.class_properties:
-            print("--" + property_name)
-        exit(0)
-    for property_name in class_object.class_properties:
-        if verify_flag("--" + property_name):
-            set_class_attribute(class_object, "_" + property_name, get_flag("--" + property_name))
