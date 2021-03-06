@@ -33,9 +33,17 @@ def verify_flag(flag_name):
 
     return flag_name in flags
 
-def get_flag(flag_name):
+
+def get_flag(flag_name, default_value=None):
+    flag_value = default_value
+
+    if not list(flags.keys()):
+        process_args()
 
     if flag_name in flags:
-        return flags[flag_name]
+        flag_value = flags[flag_name]
 
-    return None
+    if flag_value.__class__ == list and len(flag_value) == 1:
+        flag_value = flag_value[0]
+
+    return flag_value
