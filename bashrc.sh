@@ -1,5 +1,6 @@
 alias p2='python2'
 alias p3='python3'
+alias p3i='python3 -i'
 
 function p3m()
 {
@@ -34,6 +35,15 @@ alias pys="find . -name '*.py'"
 
 alias pi-error="python3 -m pyutils.cli.get_pymodule_from_lasterror '$(history | tail -3 | head -1)'"
 alias pi="pip install"
+
+function pip-uninstall()
+{
+    target_module=$(pip freeze | grep '==' | tr '=' ' ' | sk | awk '{print $1}')
+
+    echo "Uninstalling module "${target_module}
+    pip uninstall ${target_module}
+}
+alias pu='pip-uninstall'
 
 alias py-tree="tree -I *.pyc -I __pycache__"
 
