@@ -2,10 +2,11 @@ import subprocess
 import os
 
 
-def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=False):
+def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=False, live_log=False):
     ibash_exe = "/usr/local/bin/interactive_bash"
 
-    subprocess_cmd = cmd
+    if cmd:
+        subprocess_cmd = cmd
 
     args = {"shell": True}
 
@@ -19,8 +20,30 @@ def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=Fals
         args["universal_newlines"] = True
         args["timeout"] = 3
 
-    subprocess_output = subprocess.check_output(subprocess_cmd, **args)
-    subprocess_output = subprocess_output.decode("utf8")
-    subprocess_output = subprocess_output.strip()
+    if not live_log:
+        subprocess_output = subprocess.check_output(subprocess_cmd, **args)
+        subprocess_output = subprocess_output.decode("utf8")
+        subprocess_output = subprocess_output.strip()
+    else:
+        subprocess_output = ''
+
+        if cmd.__class__ == str:
+            subprocess_cmd = subprocess_cmd.split(' ')
+
+        process = subprocess.Popen(subprocess_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        while True:
+            output = None
+
+            try:
+                output = process.stdout.readline()
+            except Exception as exception:
+                output = None
+
+            if output is None or (output == b'' and process.poll() is not None):
+                break
+            if output:
+                out = output.decode()
+                subprocess_output += out + '\n'
+                print(out, end="")
 
     return subprocess_output

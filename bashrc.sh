@@ -1,6 +1,11 @@
 alias p2='python2'
-alias p3='python3'
 alias p3i='python3 -i'
+
+function p3()
+{
+    python3_path=$(which python3)
+    python3 -m pyutils.cli.runpythoncmd ${python3_path} $*
+}
 
 function p3m()
 {
@@ -14,7 +19,7 @@ function p3m()
     target_module=${target_module/.py/}
     echo "Running module "${target_module}
     shift
-    python3 -m ${target_module} $@
+    p3 -m ${target_module} $@
 }
 
 function p3mi()
@@ -38,7 +43,7 @@ alias pi="pip install"
 
 function pip-uninstall()
 {
-    target_module=$(pip freeze | grep '==' | tr '=' ' ' | sk | awk '{print $1}')
+    target_module=$(pip freeze | grep '==' | tr '=' ' ' | default-fuzzy-finder | awk '{print $1}')
 
     echo "Uninstalling module "${target_module}
     pip uninstall ${target_module}
@@ -65,3 +70,8 @@ function py-which()
 
 alias py-pickle-viewer="python3 -i -m pyutils.pickle_view"
 alias py-json-load="python3 -i -m pyutils.json_load"
+
+function py-install-pyutils()
+{
+    pip install -e ${PYTOOLS_DIR}
+}
