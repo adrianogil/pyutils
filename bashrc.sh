@@ -1,7 +1,8 @@
 alias p2='python2'
+alias p3='python3'
 alias p3i='python3 -i'
 
-function p3()
+function p3c()
 {
     python3_path=$(which python3)
     python3 -m pyutils.cli.runpythoncmd ${python3_path} $*
@@ -38,7 +39,7 @@ function p3mi()
 
 alias pys="find . -name '*.py'"
 
-alias pi-error="python3 -m pyutils.cli.get_pymodule_from_lasterror '$(history | tail -3 | head -1)'"
+# alias pi-error="python3 -m pyutils.cli.get_pymodule_from_lasterror '$(history | tail -3 | head -1)'"
 alias pi="pip install"
 
 function pip-uninstall()
@@ -74,4 +75,17 @@ alias py-json-load="python3 -i -m pyutils.json_load"
 function py-install-pyutils()
 {
     pip install -e ${PYTOOLS_DIR}
+}
+
+function py-diff-days()
+{
+    target_day=$1
+    python -m pyutils.cli.diffdays ${target_day}
+}
+
+
+function pydev-install-python()
+{
+    target_python=$(pyenv install --list | tail -n +3 | default-fuzzy-finder)
+    pyenv install ${target_python##*( )}
 }
