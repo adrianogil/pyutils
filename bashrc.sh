@@ -89,3 +89,10 @@ function pydev-install-python()
     target_python=$(pyenv install --list | tail -n +3 | default-fuzzy-finder)
     pyenv install ${target_python##*( )}
 }
+
+function pydev-create-venv()
+{
+    python3 -m venv .env
+    source .env/bin/activate
+    pip install -r requirements.txt
+}
