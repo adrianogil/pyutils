@@ -14,12 +14,16 @@ function p3m()
         module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
     else
         module_path=$1
+        if [ -f "$module_path" ]; then
+            module_path=$1
+        else 
+            module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
+        fi
     fi
     module_path=${module_path%"/__init__.py"}
     target_module=$(echo ${module_path} | tr '/' '.')
     target_module=${target_module/.py/}
     echo "Running module "${target_module}
-    shift
     p3 -m ${target_module} $@
 }
 
