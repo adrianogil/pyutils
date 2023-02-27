@@ -22,7 +22,7 @@ def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=Fals
 
     if not live_log:
         subprocess_output = subprocess.check_output(subprocess_cmd, **args)
-        subprocess_output = subprocess_output.decode("utf8")
+        subprocess_output = subprocess_output.decode("ISO-8859-1")
         subprocess_output = subprocess_output.strip()
     else:
         subprocess_output = ''
@@ -42,7 +42,7 @@ def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=Fals
             if output is None or (output == b'' and process.poll() is not None):
                 break
             if output:
-                out = output.decode()
+                out = output.decode("ISO-8859-1")
                 subprocess_output += out + '\n'
                 print(out, end="")
 
