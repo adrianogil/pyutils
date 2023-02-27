@@ -13,6 +13,7 @@ function p3m()
 {
     if [[ -z "$1" ]]; then
         module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
+        pargs=$@
     else
         module_path=$1
         if [ -f "$module_path" ]; then
@@ -20,12 +21,13 @@ function p3m()
         else 
             module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
         fi
+        pargs=${@:2}
     fi
     module_path=${module_path%"/__init__.py"}
     target_module=$(echo ${module_path} | tr '/' '.')
     target_module=${target_module/.py/}
     echo "Running module "${target_module}
-    p3 -m ${target_module} $@
+    p3 -m ${target_module} ${pargs}
 }
 
 function p3mi()
