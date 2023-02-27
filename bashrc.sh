@@ -1,6 +1,7 @@
 alias p2='python2'
 alias p3='python3'
 alias p3i='python3 -i'
+alias piu='pip install --upgrade pip'
 
 function p3c()
 {
