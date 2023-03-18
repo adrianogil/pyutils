@@ -12,11 +12,16 @@ def generate_init(target_dir, include_to_git=True):
 
     init_file = os.path.join(target_dir, '__init__.py')
 
+    if os.path.exists(init_file) or '__pycache__' in init_file:
+        return
+
+    print("Add init to path: ", target_dir)
+
     with open(init_file, 'w') as target_file_handler:
         target_file_handler.write('\"\"\" Init file \"\"\"\n')
 
     if include_to_git:
-        run_cmd('git add "%s"' % (target_dir,))
+        run_cmd('git add "%s"' % (init_file,))
 
 
 if __name__ == '__main__':
@@ -40,5 +45,5 @@ if __name__ == '__main__':
         for directory in dirs:
             # Do something with the directory name
             sub_dir_path = os.path.join(root, directory)
-            print("Add init to path: ", sub_dir_path)
+            
             generate_init(sub_dir_path, include_to_git=include_to_git)
