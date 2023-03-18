@@ -6,6 +6,7 @@ import os
 
 
 def generate_init(target_dir, include_to_git=True):
+    
     if not os.path.exists(target_dir):
         os.makedirs(target_dir)
 
@@ -27,9 +28,17 @@ if __name__ == '__main__':
         args.remove('--not-git')
         include_to_git = False
 
-    if len(args) > 1:
-        target_dir = sys.argv[1]
+    if len(args) > 0:
+        target_dir = args[0]
     else:
         target_dir = os.getcwd()
 
     generate_init(target_dir, include_to_git=include_to_git)
+
+    # Walk through all subdirectories of the target directory
+    for root, dirs, files in os.walk(target_dir):
+        for directory in dirs:
+            # Do something with the directory name
+            sub_dir_path = os.path.join(root, directory)
+            print("Add init to path: ", sub_dir_path)
+            generate_init(sub_dir_path, include_to_git=include_to_git)

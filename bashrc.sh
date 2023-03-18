@@ -61,7 +61,11 @@ alias pu='pip-uninstall'
 alias py-tree="tree -I *.pyc -I __pycache__"
 
 # Create init files
-alias py-tg="python3 -m pyutils.pyproject.create_init_files"
+function py-tg()
+{
+    echo "Running py-tg on current directory"
+    python3 -m pyutils.pyproject.create_init_files
+}
 
 function py-smod()
 {
