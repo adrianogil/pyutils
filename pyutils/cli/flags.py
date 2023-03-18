@@ -34,13 +34,19 @@ def verify_flag(flag_name):
     return flag_name in flags
 
 
-def get_flag(flag_name, default_value=None):
+def get_flag(flag_name, default_value=None, prompt_label=None):
     flag_value = default_value
 
     if not list(flags.keys()):
         process_args()
 
     if flag_name in flags:
+        flag_value = flags[flag_name]
+    elif prompt_label:
+        if default_value:
+            flags[flag_name] = input(f"{prompt_label} (default: {default_value}):")
+        else:
+            flags[flag_name] = input(f"{prompt_label}:")
         flag_value = flags[flag_name]
 
     if flag_value.__class__ == list and len(flag_value) == 1:
