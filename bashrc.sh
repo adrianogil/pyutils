@@ -148,3 +148,8 @@ function pydev-create-venv()
     source .env/bin/activate
     pip install -r requirements.txt
 }
+
+function perfexe()
+{
+    python3 -m pyutils.cli.runperfcmd $1
+}
