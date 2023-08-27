@@ -65,7 +65,15 @@ def declare_props(obj, *properties_list, props=None):
                 # set_class_attribute(self, "_" + property_name, properties_dict[property_name])
         return set_properties
 
+    def generate_print_properties_method():
+        def print_properties(self):
+            print(self)
+            for prop in self.custom_properties:
+                prop_value = getattr(self, "_" + prop)
+                print("%s - %s (%s)" % (prop, prop_value, prop_value.__class__))
+        return print_properties
+
+    setattr(obj, 'custom_properties', props)
     set_class_attribute(obj, 'class_properties', properties_list)
     set_class_attribute(obj.__class__, 'set_properties', properties_setter_gen(properties_list))
-
-
+    set_class_attribute(obj.__class__, 'print_properties', generate_print_properties_method())
