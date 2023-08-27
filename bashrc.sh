@@ -11,30 +11,6 @@ function p3c()
 
 function p3m()
 {
-    if [[ -d "$1" ]]; then
-        module_path=$(find $1 -name '*.py' | cut -c3- | default-fuzzy-finder)
-        pargs=${@:2}
-    elif [[ -z "$1" ]]; then
-        module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
-        pargs=$@
-    else
-        module_path=$1
-        if [ -f "$module_path" ]; then
-            module_path=$1
-        else 
-            module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
-        fi
-        pargs=${@:2}
-    fi
-    module_path=${module_path%"/__init__.py"}
-    target_module=$(echo ${module_path} | tr '/' '.')
-    target_module=${target_module/.py/}
-    echo "Running module "${target_module}
-    p3 -m ${target_module} ${pargs}
-}
-
-function p3m()
-{
     # Check if the first argument is a directory or a Python file
     if [[ -d "$1" ]]; then
         # If it's a directory, search for a Python file and prompt the user to select one
@@ -43,7 +19,7 @@ function p3m()
     elif [[ -z "$1" ]]; then
         # If no argument is specified, search for a Python file in the current directory and prompt the user to select one
         module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
-        pargs=$@
+        pargs=${@:1}
     else
         # If a Python file is specified, use that as the module path
         module_path=$1
@@ -54,8 +30,9 @@ function p3m()
             # If the specified file doesn't exist or is a directory, search for a Python file in the current directory and prompt the user to select one
             module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
         fi
-        pargs=${@:2}
+        pargs=${@:1}
     fi
+    
     
     # Remove the '/__init__.py' suffix (if present) and replace all slashes with dots to create the target module name
     module_path=${module_path%"/__init__.py"}
