@@ -5,8 +5,33 @@ flags = {
 
 }
 
+def get_parsed_flags():
+    '''
+        return parsed flags as a dictionary
+    '''
+    import pyutils.utils.datautils as datautils
+    args = {}
+
+    last_key = ''
+
+    for i in range(1, len(sys.argv)):
+        a = sys.argv[i]
+        if a[0] == '-' and not datautils.is_float(a):
+            last_key = a
+            args[a] = []
+        elif last_key != '':
+            arg_values = args[last_key]
+            arg_values.append(a)
+            args[last_key] = arg_values
+
+    return args
+
 
 def process_args(flags_list=None):
+    '''
+        process current flags
+        adds to internal storing system
+    '''
     if flags_list is None:
         flags_list = sys.argv[1:]
 
