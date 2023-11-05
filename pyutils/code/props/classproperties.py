@@ -1,11 +1,16 @@
 """
-    Module for handling generation of class properties
-
+    Module for dynamically handling the generation and setting of class properties.
 """
+
 from .base import get_class_attribute, set_class_attribute
 from .flags import set_properties_from_flags
 
+from typing import Any, Dict, List, Optional
+import copy
+
+
 DEBUG_MODE = False
+
 
 
 def getter_method_gen(property_name):
@@ -73,7 +78,28 @@ def declare_props(obj, *properties_list, props=None):
                 print("%s - %s (%s)" % (prop, prop_value, prop_value.__class__))
         return print_properties
 
+    def generate_get_properties_method():
+        def get_properties(self, include_only: Optional[List[str]] = None, exclude_props: Optional[List[str]] = None, filter_null: bool = False) -> Dict[str, Any]:
+            """
+            Generate a dictionary of properties for the instance.
+
+            :param include_only: List of property names to include. If None, all properties are included.
+            :param exclude_props: List of property names to exclude. If None, no properties are excluded.
+            :param filter_null: Whether to exclude properties with a value of None.
+            :return: A dictionary of properties.
+            """
+            return {
+                prop: getattr(self, "_" + prop)
+                for prop in self.custom_properties
+                if (include_only is None or prop in include_only) and 
+                (exclude_props is None or prop not in exclude_props) and 
+                (not filter_null or getattr(self, "_" + prop) is not None)
+            }
+            
+        return get_properties
+
     setattr(obj, 'custom_properties', props)
     set_class_attribute(obj, 'class_properties', properties_list)
     set_class_attribute(obj.__class__, 'set_properties', properties_setter_gen(properties_list))
     set_class_attribute(obj.__class__, 'print_properties', generate_print_properties_method())
+    setattr(obj.__class__, 'get_properties', generate_get_properties_method())
