@@ -52,8 +52,8 @@ def declare_props(obj, *properties_list, props=None):
         setter_method = setter_method_gen(property_name, props.get(property_name, None))
 
         set_class_attribute(obj, "_" + property_name, None)
-        set_class_attribute(obj.__class__, "_get_" + property_name, getter_method_gen)
-        set_class_attribute(obj.__class__, "_set_" + property_name, setter_method_gen)
+        set_class_attribute(obj.__class__, "_get_" + property_name, getter_method)
+        set_class_attribute(obj.__class__, "_set_" + property_name, setter_method)
         set_class_attribute(obj.__class__, property_name, property(getter_method, setter_method))
 
         # Set default values when defined in props
