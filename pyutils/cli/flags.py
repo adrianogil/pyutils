@@ -52,29 +52,41 @@ def process_args(flags_list=None):
     add_flag(current_flag, current_values)
 
 
-def verify_flag(flag_name):
-    if not list(flags.keys()):
-        process_args()
+def verify_flag(flag_name: str) -> bool:
+    """
+    Verify if a given flag exists in the flags dictionary.
+
+    :param flag_name: The name of the flag to verify.
+    :return: True if the flag exists, False otherwise.
+    """
+    if not flags:
+        process_args()  # Assumes process_args() populates the 'flags' dictionary
 
     return flag_name in flags
 
 
-def get_flag(flag_name, default_value=None, prompt_label=None):
-    flag_value = default_value
+def get_flag(flag_name: str, default_value=None, prompt_label: str = None):
+    """
+    Get the value of a flag from a dictionary, with an option to prompt for the value.
 
-    if not list(flags.keys()):
-        process_args()
+    :param flag_name: The name of the flag to retrieve.
+    :param default_value: Default value if the flag is not found.
+    :param prompt_label: Label for the prompt if the flag value needs to be inputted.
+    :return: The value of the flag or the default value.
+    """
+    if not flags:
+        process_args()  # Assumes process_args() populates 'flags'
 
     if flag_name in flags:
         flag_value = flags[flag_name]
     elif prompt_label:
-        if default_value:
-            flags[flag_name] = input(f"{prompt_label} (default: {default_value}):")
-        else:
-            flags[flag_name] = input(f"{prompt_label}:")
-        flag_value = flags[flag_name]
+        prompt = f"{prompt_label}: " if default_value is None else f"{prompt_label} (default: {default_value}): "
+        flag_value = input(prompt) or default_value
+        flags[flag_name] = flag_value
+    else:
+        flag_value = default_value
 
-    if flag_value.__class__ == list and len(flag_value) == 1:
-        flag_value = flag_value[0]
+    if isinstance(flag_value, list) and len(flag_value) == 1:
+        return flag_value[0]
 
     return flag_value
