@@ -13,10 +13,20 @@ function p3m()
 {
     # Check if the first argument is a directory or a Python file
     if [[ -d "$1" ]]; then
+        if [[ "$2" == "-path" ]]; then
+            module_root_path=$3
+            echo $module_root_path
+            pargs=${@:4}
+        else
+            # Path argument not provided
+            module_root_path=$1
+            pargs=${@:2}
+        fi
+
         # If it's a directory, search for a Python file and prompt the user to select one
-        module_path=$(find $1 -name '*.py' | default-fuzzy-finder)
-        pargs=${@:2}
+        module_path=$(find $1 -name '*.py' | sed "s|${module_root_path}||" | default-fuzzy-finder)
     elif [[ -z "$1" ]]; then
+        module_root_path=.
         # If no argument is specified, search for a Python file in the current directory and prompt the user to select one
         module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
         pargs=${@:1}
@@ -26,25 +36,24 @@ function p3m()
         if [ -f "$module_path" ]; then
             # Check if the specified file exists and is a file (not a directory)
             module_path=$1
-        else 
+        else
             # If the specified file doesn't exist or is a directory, search for a Python file in the current directory and prompt the user to select one
             module_path=$(find . -name '*.py' | cut -c3- | default-fuzzy-finder)
         fi
         pargs=${@:1}
     fi
-    
-    
+
     # Remove the '/__init__.py' suffix (if present) and replace all slashes with dots to create the target module name
     module_path=${module_path%"/__init__.py"}
     module_path=${module_path%"/__main__.py"}
     target_module=$(echo ${module_path} | tr '/' '.')
     target_module=${target_module/.py/}
-    
+
     # Print a message indicating which module is being run
     echo "Running module "${target_module}
-    
+
     # Execute the Python module using the 'p3' command
-    p3 -m ${target_module} ${pargs}
+    PYTHONPATH="$module_root_path:$PYTHONPATH" p3 -m ${target_module} ${pargs}
 }
 
 
