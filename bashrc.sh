@@ -121,6 +121,10 @@ function py-diff-days()
     python -m pyutils.cli.diffdays ${target_day}
 }
 
+function pydev-requirements-add()
+{
+    pip3 freeze | default-fuzzy-finder >> requirements.txt
+}
 
 function pydev-install-python()
 {
