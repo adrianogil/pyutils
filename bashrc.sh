@@ -76,6 +76,16 @@ alias pys="find . -name '*.py'"
 # alias pi-error="python3 -m pyutils.cli.get_pymodule_from_lasterror '$(history | tail -3 | head -1)'"
 alias pi="pip install"
 
+function pip-upgrade-fz()
+{
+    pip3 freeze | default-fuzzy-finder | xargs -n 1 pip3 install --upgrade
+}
+
+function pip-upgrade-self()
+{
+    python3 -m pip install --upgrade pip
+}
+
 function pip-uninstall()
 {
     target_module=$(pip freeze | grep '==' | tr '=' ' ' | default-fuzzy-finder | awk '{print $1}')
