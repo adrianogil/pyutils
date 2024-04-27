@@ -13,3 +13,7 @@ def write_to_file(
             jsonfile,
             indent=indent
         )
+
+def read_json_file(filename):
+    with open(filename, 'r') as jsonfile:
+        return json.load(jsonfile)
