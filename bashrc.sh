@@ -131,6 +131,18 @@ function py-diff-days()
     python -m pyutils.cli.diffdays ${target_day}
 }
 
+# pytool py-show-lib: Show information regarding an installed pip package
+function py-show-lib()
+{
+    if [[ -z "$1" ]]; then
+        target_module=$(pip freeze | default-fuzzy-finder | tr '=' ' ' | awk '{print $1}')
+    else
+        target_module=$1
+    fi
+
+    pip show ${target_module}
+}
+
 function pydev-requirements-add()
 {
     pip3 freeze | default-fuzzy-finder >> requirements.txt
