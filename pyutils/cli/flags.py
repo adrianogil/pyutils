@@ -1,6 +1,7 @@
+from pyutils.utils.userinput import get_user_input
+
 import sys
-from prompt_toolkit import PromptSession
-prompt_session = PromptSession()
+
 
 flags = {
 
@@ -82,7 +83,7 @@ def get_flag(flag_name: str, default_value=None, prompt_label: str = None):
         flag_value = flags[flag_name]
     elif prompt_label:
         prompt = f"{prompt_label}: " if default_value is None else f"{prompt_label} (default: {default_value}): "
-        flag_value = prompt_session.prompt(prompt) or default_value
+        flag_value = get_user_input(prompt) or default_value
         flags[flag_name] = flag_value
     else:
         flag_value = default_value
