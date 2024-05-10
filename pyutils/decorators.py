@@ -28,6 +28,7 @@ def timer(func):
         return value
     return wrapper_timer
 
+
 class InstanceObserver:
     def __init__(self):
         self._instances = {}
@@ -87,6 +88,7 @@ def manage_instance(class_func):
 
     return wrapper_instance_creation
 
+
 class CallCount:
     def __init__(self, f):
         self.f = f
@@ -107,4 +109,3 @@ class Tracer:
                 print("Calling {}".format(f))
             return f(*args, **kwargs)
         return wrap
-

@@ -117,6 +117,8 @@ function py-which()
     type python
 }
 
+alias py-lib-pick="pip freeze | default-fuzzy-finder"
+
 alias py-pickle-viewer="python3 -i -m pyutils.pickle_view"
 alias py-json-load="python3 -i -m pyutils.json_load"
 
@@ -132,7 +134,7 @@ function py-diff-days()
 }
 
 # pytool py-show-lib: Show information regarding an installed pip package
-function py-show-lib()
+function py-lib-show()
 {
     if [[ -z "$1" ]]; then
         target_module=$(pip freeze | default-fuzzy-finder | tr '=' ' ' | awk '{print $1}')
