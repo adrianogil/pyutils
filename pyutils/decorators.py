@@ -32,6 +32,36 @@ def timer(func):
         return value
     return wrapper_timer
 
+def sleep(_func=None, *, sleep_time=1):
+    """
+    A decorator that adds a delay before calling the decorated function.
+
+    Args:
+        _func (function, optional): The function to be decorated. Defaults to None.
+        sleep_time (int, optional): The amount of time to sleep in seconds. Defaults to 1.
+
+    Returns:
+        function: The decorated function.
+
+    Example:
+        @sleep(sleep_time=2)
+        def my_function():
+            print("Hello, world!")
+
+        my_function()  # Will print "Hello, world!" after a 2-second delay.
+    """
+    def decorator_sleep(func):
+        @functools.wraps(func)
+        def wrapper_slow_down(*args, **kwargs):
+            time.sleep(sleep_time)
+            return func(*args, **kwargs)
+        return wrapper_slow_down
+
+    if _func is None:
+        return decorator_sleep
+    else:
+        return decorator_sleep(_func)
+
 
 def trycatch(_func=None, *, error_callback=None, error_message=None, stacktrace=True):
     """
