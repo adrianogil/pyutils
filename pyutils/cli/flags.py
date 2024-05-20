@@ -53,6 +53,8 @@ def process_args(flags_list=None):
             current_values.append(f)
     add_flag(current_flag, current_values)
 
+    return flags
+
 
 def verify_flag(flag_name: str) -> bool:
     """
