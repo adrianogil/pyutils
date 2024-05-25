@@ -68,3 +68,18 @@ def get_random(l):
         The randomly selected element from the list.
     '''
     return l[randint(0, len(l)-1)]
+
+
+def get_first(l, condition):
+    """
+    Returns the first element from the given list `l` that satisfies the given `condition`.
+
+    Args:
+        l (list): The list to search for the first element.
+        condition (function): A function that takes an element from the list and returns a boolean value.
+
+    Returns:
+        The first element from the list that satisfies the condition, or None if no such element is found.
+    """
+    custom_list = [string for string in l if condition(string)]
+    return custom_list[0] if custom_list else None
