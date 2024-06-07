@@ -2,6 +2,7 @@
 Module for working with JSON files.
 """
 import json
+from ..decorators import debug
 
 
 def write_to_file(filename, data, indent=4, encoding='utf-8'):
@@ -14,8 +15,11 @@ def write_to_file(filename, data, indent=4, encoding='utf-8'):
         indent (int, optional): The number of spaces to use for indentation. Defaults to 4.
         encoding (str, optional): The encoding to use for the file. Defaults to 'utf-8'.
     """
+
+    print(data.__class__)
+
     with open(filename, 'w', encoding=encoding) as jsonfile:
-        json.dump(data, jsonfile, indent=indent)
+        json.dump(data, jsonfile, indent=indent, default=str)
 
 
 def read_json_file(filename):
