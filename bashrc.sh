@@ -74,7 +74,20 @@ function p3mi()
 alias pys="find . -name '*.py'"
 
 # alias pi-error="python3 -m pyutils.cli.get_pymodule_from_lasterror '$(history | tail -3 | head -1)'"
-alias pi="pip install"
+function pip-install()
+{
+    target_lib=$1
+
+    echo "Installing "${target_lib}
+    pip install ${target_lib}
+
+    # Check if there is a requirements file in the current directory
+    if [ -f "requirements.txt" ]; then
+        echo "- Updating requirements.txt"
+        pip freeze | grep ${target_lib} >> requirements.txt
+    fi
+}
+alias pi="pip-install"
 
 function pip-upgrade-fz()
 {
