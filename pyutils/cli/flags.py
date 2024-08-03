@@ -104,3 +104,22 @@ def get_flag(flag_name, default_value=None, prompt_label: str = None):
         return flag_value[0]
 
     return flag_value
+
+
+def get_all_flags(exception_list=None, remove_dash=False):
+    """
+    Get all flags from the flags dictionary.
+    """
+    if not flags:
+        process_args()  # Assumes process_args() populates 'flags'
+
+    if exception_list:
+        user_flags = {k: v for k, v in flags.items() if k not in exception_list}
+    else:
+        import copy
+        user_flags = copy.deepcopy(flags)
+
+    if remove_dash:
+        user_flags = {k.replace("--", ""): v for k, v in user_flags.items()}
+
+    return user_flags
