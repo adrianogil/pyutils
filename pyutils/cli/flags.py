@@ -66,10 +66,19 @@ def verify_flag(flag_name: str) -> bool:
     if not flags:
         process_args()  # Assumes process_args() populates the 'flags' dictionary
 
-    return flag_name in flags
+    if flag_name.__class__ == list:
+        flag_list = flag_name
+
+        for f in flag_list:
+            if f in flags:
+                return True
+    else:
+        return flag_name in flags
+
+    return False
 
 
-def get_flag(flag_name, default_value=None, prompt_label: str = None):
+def get_flag(flag_name, default_value=None, prompt_label: str = None, options=None):
     """
     Get the value of a flag from a dictionary, with an option to prompt for the value.
 
@@ -95,7 +104,10 @@ def get_flag(flag_name, default_value=None, prompt_label: str = None):
         flag_value = flags[flag_name]
     elif prompt_label:
         prompt = f"{prompt_label}: " if default_value is None else f"{prompt_label} (default: {default_value}): "
-        flag_value = get_user_input(prompt) or default_value
+        flag_value = get_user_input(
+            prompt,
+            options=options,
+            default_value=default_value)
         flags[flag_name] = flag_value
     else:
         flag_value = default_value
