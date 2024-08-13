@@ -1,10 +1,12 @@
+from pyutils.decorators import trycatch
+
 import subprocess
 import psutil
 import time
 import os
 
-
-def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=False, live_log=False):
+@trycatch
+def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=False, live_log=False, encoding="ISO-8859-1"):
     ibash_exe = "/usr/local/bin/interactive_bash"
 
     if cmd:
@@ -24,7 +26,7 @@ def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=Fals
 
     if not live_log:
         subprocess_output = subprocess.check_output(subprocess_cmd, **args)
-        subprocess_output = subprocess_output.decode("ISO-8859-1")
+        subprocess_output = subprocess_output.decode(encoding)
         subprocess_output = subprocess_output.strip()
     else:
         subprocess_output = ''
@@ -32,7 +34,7 @@ def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=Fals
         if cmd.__class__ == str:
             subprocess_cmd = subprocess_cmd.split(' ')
 
-        process = subprocess.Popen(subprocess_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        process = subprocess.Popen(subprocess_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, **args)
         while True:
             output = None
 
@@ -44,7 +46,7 @@ def run_cmd(cmd, terminal_executable=None, return_stderr=False, load_bashrc=Fals
             if output is None or (output == b'' and process.poll() is not None):
                 break
             if output:
-                out = output.decode("ISO-8859-1")
+                out = output.decode(encoding)
                 subprocess_output += out + '\n'
                 print(out, end="")
 
