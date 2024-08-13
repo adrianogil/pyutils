@@ -10,6 +10,8 @@ prompt_session = PromptSession()
 def get_user_input(user_prompt, options=None, default_value=None):
     if default_value:
         user_prompt += f" ({default_value})"
+    if not user_prompt.strip().endswith(":"):
+        user_prompt = user_prompt + ": "
     user_input = prompt_session.prompt(user_prompt)
     if not user_input:
         if options:
