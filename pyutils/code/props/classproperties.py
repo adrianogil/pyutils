@@ -64,9 +64,11 @@ def declare_props(obj, *properties_list, props=None):
 
     def properties_setter_gen(props):
         def set_properties(self, properties_dict):
+            class_properties = self.class_properties
             for property_name in properties_dict:
-                setter = get_class_attribute(self, "_set_" + property_name)
-                setter(properties_dict[property_name])
+                if property_name in class_properties:
+                    setter = get_class_attribute(self, "_set_" + property_name)
+                    setter(properties_dict[property_name])
                 # set_class_attribute(self, "_" + property_name, properties_dict[property_name])
         return set_properties
 
@@ -91,11 +93,11 @@ def declare_props(obj, *properties_list, props=None):
             return {
                 prop: getattr(self, "_" + prop)
                 for prop in self.custom_properties
-                if (include_only is None or prop in include_only) and 
-                (exclude_props is None or prop not in exclude_props) and 
+                if (include_only is None or prop in include_only) and
+                (exclude_props is None or prop not in exclude_props) and
                 (not filter_null or getattr(self, "_" + prop) is not None)
             }
-            
+
         return get_properties
 
     setattr(obj, 'custom_properties', props)
