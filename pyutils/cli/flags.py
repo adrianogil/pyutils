@@ -78,7 +78,7 @@ def verify_flag(flag_name: str) -> bool:
     return False
 
 
-def get_flag(flag_name, default_value=None, prompt_label: str = None, options=None, result_type=None, always_prompt=False):
+def get_flag(flag_name, default_value=None, prompt_label: str = None, options=None, result_type=None, always_prompt=False, eval_input=False):
     """
     Get the value of a flag from a dictionary, with an option to prompt for the value.
 
@@ -108,7 +108,9 @@ def get_flag(flag_name, default_value=None, prompt_label: str = None, options=No
         flag_value = get_user_input(
             prompt_label,
             options=options,
-            default_value=default_value)
+            default_value=default_value,
+            cast_type=result_type,
+            eval_input=eval_input)
         if not always_prompt:
             flags[flag_name] = flag_value
     else:
