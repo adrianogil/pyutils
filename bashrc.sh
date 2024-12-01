@@ -9,6 +9,12 @@ function p3c()
     python3 -m pyutils.cli.runpythoncmd ${python3_path} $*
 }
 
+function p3z()
+{
+    target_file=$(find . -name '*.py' | default-fuzzy-finder)
+    python3 target_file
+}
+
 function p3m()
 {
     # Check if the first argument is a directory or a Python file
