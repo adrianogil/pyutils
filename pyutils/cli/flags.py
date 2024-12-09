@@ -1,10 +1,9 @@
 from pyutils.utils.userinput import get_user_input
-
+from pyutils.decorators import debug
 import sys
 
 
 flags = {
-
 }
 
 def get_parsed_flags():
@@ -45,7 +44,7 @@ def process_args(flags_list=None):
             flags[flag] = value
 
     for f in flags_list:
-        if f.startswith('-'):
+        if f.startswith('-') and (len(f) > 1 and not f[1].isdigit()):
             add_flag(current_flag, current_values)
             current_flag = f
             current_values = []
@@ -77,7 +76,6 @@ def verify_flag(flag_name: str) -> bool:
 
     return False
 
-
 def get_flag(flag_name, default_value=None, prompt_label: str = None, options=None, result_type=None, always_prompt=False, eval_input=False):
     """
     Get the value of a flag from a dictionary, with an option to prompt for the value.
@@ -89,6 +87,7 @@ def get_flag(flag_name, default_value=None, prompt_label: str = None, options=No
     :param result_type: Type of the result to be returned.
     :return: The value of the flag or the default value.
     """
+
     if not flags:
         process_args()  # Assumes process_args() populates 'flags'
 
