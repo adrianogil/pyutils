@@ -23,12 +23,13 @@ class QMLApp(QObject):
 
         self.main_qml = None
 
-    def execute(self):
+    def show(self):
         """
             Executes main loop of QT
             Main entry point of Qt/QML code
         """
         print('Running QML %s' % (self.main_qml,))
+        self.qml_engine.rootContext().setContextProperty("pyview", self)
         self.qml_engine.load(self.main_qml)
         self.qml_engine.quit.connect(self.app.quit)
         sys.exit(self.app.exec_())
