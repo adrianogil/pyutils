@@ -2,7 +2,8 @@
 Module for working with JSON files.
 """
 import json
-from ..decorators import debug
+import os
+
 
 
 def write_to_file(filename, data, indent=4, encoding='utf-8'):
@@ -29,5 +30,8 @@ def read_json_file(filename):
     Returns:
         Any: The data read from the file.
     """
+    if not os.path.exists(filename):
+        return {}
+
     with open(filename, 'r') as jsonfile:
         return json.load(jsonfile)
