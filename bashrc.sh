@@ -13,7 +13,7 @@ function p3c()
 function p3z()
 {
     target_file=$(find . -name '*.py' | default-fuzzy-finder)
-    python3 target_file
+    python3 ${target_file}
 }
 
 function p3m()
@@ -187,3 +187,22 @@ function perfexe()
 {
     python3 -m pyutils.cli.runperfcmd $1
 }
+
+function pt-install()
+{
+    poetry install $*
+}
+alias pti='pt-install'
+
+
+function pt-add()
+{
+    poetry add $*
+}
+alias pta='pt-add'
+
+function pt-shell()
+{
+    poetry shell
+}
+alias pts='pt-shell'
